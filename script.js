@@ -8,7 +8,7 @@ const confirmPasswordInput = document.getElementById('confirmPassword');
 // Select all necessary DOM elements (error message spans).
 const usernameErrorEl = document.getElementById('usernameError');
 const emailErrorEl = document.getElementById('emailError');
-const passwordErrorEl = document.getElementById('emailError');
+const passwordErrorEl = document.getElementById('passwordError');
 const confirmPasswordErrorEl = document.getElementById('confirmPasswordError')
 
 
@@ -51,8 +51,36 @@ emailInput.addEventListener('input', function(event){
 
     emailErrorEl.textContent = emailInput.validationMessage;
 });
+
+
 // passwordInput
+passwordInput.addEventListener('input', function(event){
+    console.log(passwordInput.validity.valid);
+    if(passwordInput.validity.patternMismatch){
+        passwordInput.setCustomValidity('Your password does not meet the requirements, it must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.');
+    } else if (passwordInput.validity.valueMissing){
+        passwordInput.setCustomValidity('Password is required!');
+    } else {
+        passwordInput.setCustomValidity('');
+    }
+
+    passwordErrorEl.textContent = passwordInput.validationMessage;
+})
+
 // confirmPasswordInput
+confirmPasswordInput.addEventListener('blur', function(event){
+    console.log(confirmPasswordInput.validity.valid);
+    if(confirmPasswordInput.validity.valueMissing ){
+        confirmPasswordInput.setCustomValidity('Confirm your password!');
+    } else if (confirmPasswordInput.value !== passwordInput.value){
+        confirmPasswordInput.setCustomValidity('Password does not match!');
+    } else {
+        confirmPasswordInput.setCustomValidity('');
+    }
+
+    confirmPasswordErrorEl.textContent = confirmPasswordInput.validationMessage;
+
+})
 
 
 
